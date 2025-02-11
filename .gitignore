@@ -1,0 +1,13 @@
+/.vscode/
+/.idea/
+/bin/
+/bak/
+/log/
+/demo/
+/install/
+/launch/
+/logs/
+/go.sum
+/logs
+/static
+
