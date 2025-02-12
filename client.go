@@ -1,6 +1,7 @@
 package sdk
 
 import (
+	"sync"
 	"time"
 )
 
@@ -109,6 +110,7 @@ func (c *client) request(method string, path string, body []byte) ([]byte, error
 }
 
 type cookiesStore struct {
+	lock         sync.RWMutex
 	isInitialize bool
 	timeUnix     int64
 	cookies      string
@@ -121,12 +123,16 @@ func newCookies() *cookiesStore {
 }
 
 func (c *cookiesStore) Set(cookies string) {
+	c.lock.Lock()
+	defer c.lock.Unlock()
 	c.isInitialize = true
 	c.timeUnix = time.Now().Unix()
 	c.cookies = cookies
 }
 
 func (c *cookiesStore) Get() (string, bool) {
+	c.lock.RLock()
+	defer c.lock.RUnlock()
 	if time.Now().Unix()-c.timeUnix > 120 {
 		return "", false
 	}
