@@ -89,3 +89,15 @@ func (c *K3CloudApiSdk) Request(bos K3CloudApiBOS, formId string, data map[strin
 	}
 	return c.client.request("POST", string(bos)+URL, reqData)
 }
+
+func (c *K3CloudApiSdk) RequestAny(bos K3CloudApiBOS, formId string, data map[string]any) ([]byte, error) {
+	postData := map[string]interface{}{
+		"formid": formId,
+		"data":   data,
+	}
+	reqData, err := json.Marshal(postData)
+	if err != nil {
+		return nil, err
+	}
+	return c.client.request("POST", string(bos)+URL, reqData)
+}
