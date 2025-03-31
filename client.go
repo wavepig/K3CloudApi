@@ -1,6 +1,7 @@
 package sdk
 
 import (
+	"io"
 	"sync"
 	"time"
 )
@@ -18,6 +19,7 @@ type Config struct {
 	Username       string
 	Password       string
 	ServerUrl      string
+	DownloadUrl    string
 	AppID          string
 	AppSecret      string
 	Lcid           int
@@ -25,7 +27,7 @@ type Config struct {
 	ConnectTimeout int
 }
 
-func InitConfig(at AuthType, acctID, username, password, serverUrl, appid, appSecret string) *Config {
+func InitConfig(at AuthType, acctID, username, password, serverUrl, downloadUrl, appid, appSecret string) *Config {
 	ok := hasTrailingSlash(serverUrl)
 	if !ok {
 		serverUrl = serverUrl + "/"
@@ -36,6 +38,7 @@ func InitConfig(at AuthType, acctID, username, password, serverUrl, appid, appSe
 		Username:       username,
 		Password:       password,
 		ServerUrl:      serverUrl,
+		DownloadUrl:    downloadUrl,
 		AuthType:       at,
 		AppID:          appid,
 		AppSecret:      appSecret,
@@ -107,6 +110,14 @@ func (c *client) request(method string, path string, body []byte) ([]byte, error
 		return nil, err
 	}
 	return c.connect.request(method, c.config.ServerUrl+path, body, cookies)
+}
+
+func (c *client) requestFile(headerMap map[string]string) (io.ReadCloser, error) {
+	cookies, err := c.getCookies()
+	if err != nil {
+		return nil, err
+	}
+	return c.connect.requestFile(c.config.DownloadUrl, c.config.ServerUrl, headerMap, cookies)
 }
 
 type cookiesStore struct {

@@ -2,6 +2,7 @@ package sdk
 
 import (
 	"encoding/json"
+	"io"
 )
 
 type K3CloudApiBOS string
@@ -70,8 +71,8 @@ type K3CloudApiSdk struct {
 	client *client
 }
 
-func NewK3CloudApiSdk(at AuthType, acctID, username, password, serverUrl, appid, appSecret string) *K3CloudApiSdk {
-	c := newClient(InitConfig(at, acctID, username, password, serverUrl, appid, appSecret))
+func NewK3CloudApiSdk(at AuthType, acctID, username, password, serverUrl, downloadUrl, appid, appSecret string) *K3CloudApiSdk {
+	c := newClient(InitConfig(at, acctID, username, password, serverUrl, downloadUrl, appid, appSecret))
 
 	return &K3CloudApiSdk{
 		client: c,
@@ -108,4 +109,8 @@ func (c *K3CloudApiSdk) RequestByBos(bos string, data map[string]any) ([]byte, e
 		return nil, err
 	}
 	return c.client.request("POST", string(bos)+URL, reqData)
+}
+
+func (c *K3CloudApiSdk) RequestFile(headerData map[string]string) (io.ReadCloser, error) {
+	return c.client.requestFile(headerData)
 }
