@@ -102,7 +102,7 @@ func (c *K3CloudApiSdk) RequestAny(bos K3CloudApiBOS, formId string, data map[st
 	return c.client.request("POST", string(bos)+URL, reqData)
 }
 
-func (c *K3CloudApiSdk) RequestByBos(bos string, data map[string]string) ([]byte, error) {
+func (c *K3CloudApiSdk) RequestByBos(bos string, data map[string]any) ([]byte, error) {
 	reqData, err := json.Marshal(data)
 	if err != nil {
 		return nil, err
