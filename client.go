@@ -44,7 +44,7 @@ func InitConfig(at AuthType, acctID, username, password, serverUrl, downloadUrl,
 		AppSecret:      appSecret,
 		Lcid:           2052,
 		OrgNum:         0,
-		ConnectTimeout: 100,
+		ConnectTimeout: 50,
 	}
 }
 
