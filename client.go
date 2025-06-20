@@ -1,6 +1,7 @@
 package sdk
 
 import (
+	"errors"
 	"io"
 	"sync"
 	"time"
@@ -65,18 +66,18 @@ type client struct {
 	connect      *Cloud
 }
 
-func newClient(config *Config) *client {
+func newClient(config *Config) (*client, error) {
 	if config == nil {
-		panic("config is nil")
+		return nil, errors.New("config is nil")
 	}
 	if config.IsValid() == false {
-		panic("config is invalid")
+		return nil, errors.New("config is invalid")
 	}
 
 	cloud := NewCloud(config.ConnectTimeout)
 	loginCookies, err := cloud.login(config)
 	if err != nil {
-		panic(err)
+		return nil, errors.New("login error")
 	}
 
 	cookies := newCookies()
@@ -86,7 +87,7 @@ func newClient(config *Config) *client {
 		config:       config,
 		cookiesStore: cookies,
 		connect:      cloud,
-	}
+	}, nil
 }
 
 func (c *client) getCookies() (string, error) {

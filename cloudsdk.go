@@ -71,12 +71,14 @@ type K3CloudApiSdk struct {
 	client *client
 }
 
-func NewK3CloudApiSdk(at AuthType, acctID, username, password, serverUrl, downloadUrl, appid, appSecret string) *K3CloudApiSdk {
-	c := newClient(InitConfig(at, acctID, username, password, serverUrl, downloadUrl, appid, appSecret))
-
+func NewK3CloudApiSdk(at AuthType, acctID, username, password, serverUrl, downloadUrl, appid, appSecret string) (*K3CloudApiSdk, error) {
+	c, err := newClient(InitConfig(at, acctID, username, password, serverUrl, downloadUrl, appid, appSecret))
+	if err != nil {
+		return nil, err
+	}
 	return &K3CloudApiSdk{
 		client: c,
-	}
+	}, nil
 }
 
 func (c *K3CloudApiSdk) Request(bos K3CloudApiBOS, formId string, data map[string]string) ([]byte, error) {
