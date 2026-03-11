@@ -8,20 +8,20 @@ import (
 )
 
 func TestClient(t *testing.T) {
-	newClient(InitConfig(0, "67525a835e7b0f", "administrator", "kingdee@123", "http://192.168.32.32/k3cloud/", "http://192.168.32.32/CloudPLMWarehouse/Download", "", ""))
+	newClient(InitConfig(0, "", "administrator", "", "http://192.168.32.32/k3cloud/", "http://192.168.32.32/CloudPLMWarehouse/Download", "", ""))
 }
 
 func TestNewK3CloudApiSdk(t *testing.T) {
 	sdk, _ := NewK3CloudApiSdk(
 		AuthTypeAppSecret,
-		"67cfe0c793cfb7",
+		"",
 		"administrator",
-		//"kingdee@123",
+		//"",
 		"",
 		"http://192.168.32.32/k3cloud/",
 		"http://192.168.32.32/CloudPLMWarehouse/Download",
-		"303090_X68p59EJTuo9Tf/p5/Qo7ZVE0N7a1KLH",
-		"ecb7d282810748d5bc436fa1da09f0d5")
+		"",
+		"")
 	//str := `{"parameters": ["SUB_SUBREQORDER","{\"Number\":\"SUB00000014\",\"Id\":\"\"}"]}`
 	postData := map[string]string{
 		"Number": "SUB00000018",
@@ -41,14 +41,14 @@ func TestNewK3CloudApiSdk(t *testing.T) {
 func TestRequestAny(t *testing.T) {
 	sdk, err := NewK3CloudApiSdk(
 		AuthTypeAppSecret,
-		"6806b4475169ac",
+		"",
 		"administrator",
-		//"kingdee@123",
+		//"",
 		"",
 		"http://192.168.32.32/k3cloud/",
 		"http://192.168.32.34/CloudPLMWarehouse/Download",
-		"303090_X68p59EJTuo9Tf/p5/Qo7ZVE0N7a1KLH",
-		"ecb7d282810748d5bc436fa1da09f0d5")
+		"",
+		"")
 	postData := map[string]string{
 		//"FileID": "MDAwYzI5ZmQtMTliNi05YjVlLTExZjAtMDk0ODFhOWIwNmQ1",
 		//"FileID": "MDAwYzI5ZmQtMTliNi05YjVlLTExZjAtMDk0NzZhZjNhNTY1",
